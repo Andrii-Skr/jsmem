@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="style.css">
+  <title>mem</title>
+  <!--[if IE]>
+   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style>
+   
+  </style>
+ </head>
+ <body>
+    <div class='center'> 
+    <div id="imd1">
+    <div id="printBlock" class="down"></div>   
+    </div>
+    <form name="search" class="column">
+        <div>
+        <input id="url1" type="text1" name="key1" placeholder="Введите url"></input>
+        <input id="butt" type="button" name="print1" value="тыц" />
+        </div>
+        <div>
+        <input type="text" name="key" placeholder="Введите текст для картинки"></input>
+        <input type="button" name="print" value="тыц" />
+    </form>
+    
+    </div>
+    <script>
+    
+    butt.onclick = function() {
+    var imageUrl = document.getElementById('url1').value;
+    document.querySelector("#imd1").style.backgroundImage = `url(${imageUrl})`;
+    console.log(imageUrl);
+    }
+
+    var keyBox = document.search.key;
+     
+    // обработчик изменения текста
+    function onchange(e){
+        // получаем элемент printBlock
+        var printBlock = document.getElementById("printBlock");
+        // получаем новое значение
+        var val = e.target.value;
+        // установка значения
+        printBlock.textContent = val;
+    }
+    // обработка потери фокуса
+    function onblur(e){
+         
+        // получаем его значение и обрезаем все пробелы
+        var text = keyBox.value.trim();
+        if(text==="")
+            keyBox.style.borderColor = "red";
+        else
+            keyBox.style.borderColor = "green";
+    }
+    // получение фокуса
+    function onfocus(e){
+         
+        // установка цвета границ поля
+        keyBox.style.borderColor = "blue";
+    }
+    keyBox.addEventListener("change", onchange);
+    keyBox.addEventListener("blur", onblur);
+    keyBox.addEventListener("focus", onfocus);
+    </script>
+ </body>
+</html>

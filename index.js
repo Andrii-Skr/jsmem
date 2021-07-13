@@ -1,6 +1,20 @@
 var canv = document.getElementById("img"),
     c = canv.getContext("2d");
 
+let text = "";
+let textNode = document.querySelector("#text1");
+textNode.addEventListener("keyup", (e) => {
+    text = e.target.value;
+
+    drawText(text);
+});
+
+function drawText(text) {
+    c.drawImage(img, 0, 0);
+    c.font = "60px Arial";
+    c.fillText(text, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
+}
+
 function onfil(doc) {
     var file = doc.files[0],
         fileread = new FileReader();
@@ -10,10 +24,7 @@ function onfil(doc) {
         img.onload = function () {
             canv.width = img.width;
             canv.height = img.height;
-            c.drawImage(img, 0, 0);
-            c.font = "60px Arial";
-            var text = document.getElementById('text1').value;
-            c.fillText(document.getElementById('text1').value, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
+            drawText(text);
         }
     }
     fileread.readAsDataURL(file);
@@ -28,8 +39,7 @@ butt.onclick = function () {
         canv.height = img.height;
         c.drawImage(img, 0, 0);
         c.font = "60px Arial";
-        var text = document.getElementById('text1').value;
-        c.fillText(document.getElementById('text1').value, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
+        c.fillText(text, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
     }
     img.src = imageUrl;
 };

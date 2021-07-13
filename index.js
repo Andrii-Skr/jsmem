@@ -28,6 +28,8 @@ function onfil(doc)
  {
    
      var img=new Image();
+     img.crossOrigin = 'anonymous';
+     img.src= document.getElementById('url1').value;
      img.onload=function()
      {
      canv.width=img.width;
@@ -37,8 +39,7 @@ function onfil(doc)
      var text=document.getElementById('text1').value;
      c.fillText(document.getElementById('text1').value ,canv.width/2-text.length/2*30,canv.height/4-15);
      }
-     img.crossOrigin = 'anonymous';
-     img.src= document.getElementById('url1').value;
+     
  };
 
 

@@ -1,7 +1,7 @@
 var canv=document.getElementById("img"),
 c=canv.getContext("2d");
 
-var imageUrl = document.getElementById('url1').value;
+
 
 function onfil(doc)
 {
@@ -26,10 +26,9 @@ function onfil(doc)
 
  butt.onclick = function()
  {
-   
+     let imageUrl = document.getElementById('url1').value;
      var img=new Image();
-     img.crossOrigin = 'anonymous';
-     img.src= document.getElementById('url1').value;
+    //  img.crossOrigin = "Anonymous";
      img.onload=function()
      {
      canv.width=img.width;
@@ -39,15 +38,16 @@ function onfil(doc)
      var text=document.getElementById('text1').value;
      c.fillText(document.getElementById('text1').value ,canv.width/2-text.length/2*30,canv.height/4-15);
      }
-     
+     img.src= imageUrl;
  };
 
 
 function get()
 {
     var link=document.createElement("a");
+    var canvurl = canv.toDataURL();
     link.download="download";
-    link.href=canv.toDataURL(["image/png"]);
+    link.href=canvurl
     link.click();
     
 }
@@ -64,4 +64,38 @@ function openMem(evt, Mem) {
     }
     document.getElementById(Mem).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+// function testDrawing(){
+//     var canvas = document.getElementById("img");
+//     var context = canv.getContext("2d");
+    
+//     context.save();
+//     context.beginPath();
+//     context.moveTo(10, 10);
+//     context.lineTo(290, 290);
+//     context.stroke();
+//     context.restore();
+// }
+ 
+function getImage(){
+    var imageData = canv.toDataURL();
+    var image = new Image();
+    image.src = imageData;
+    return image;
+}
+ 
+function saveImage(image) {
+    var link = document.createElement("a");
+ 
+    link.setAttribute("href", image.src);
+    link.setAttribute("download", "canvasImage");
+    link.click();
+}
+ 
+// testDrawing();
+ 
+function saveCanvasAsImageFile(){
+    var image = getImage(document.getElementById("canvas"));
+    saveImage(image);
 }

@@ -117,10 +117,15 @@ addButton.addEventListener("click", async () => {
     const url = urlInput.value;
 
     const result = await fetch(`/add?url=${url}`);
-    const parsed = await result.json();
+    try {
+        const parsed = await result.json();
 
-    const image = parsed.image;
+        const image = parsed.image;
 
-    const imageNode = document.querySelector(".add-block img.add-image");
-    imageNode.src = image;
+        const imageNode = document.querySelector(".add-block img.add-image");
+        imageNode.src = image;
+    }
+    catch (e) {
+        console.error(e);
+    }
 });

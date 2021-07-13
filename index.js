@@ -105,6 +105,22 @@ async function add(url, text) {
     const request = new Request(url);
     const result = await fetch(url);
 
+    const parsed = result.json();
+
     var image = new Image();
     image.src = result.image;
 }
+
+const addButton = document.querySelector(".add-block button.add-start");
+addButton.addEventListener("click", async () => {
+    const urlInput = document.querySelector(".add-block input.add-url");
+    const url = urlInput.value;
+
+    const result = await fetch(`/add?url=${url}`);
+    const parsed = await result.json();
+
+    const image = parsed.image;
+
+    const imageNode = document.querySelector(".add-block img.add-image");
+    imageNode.src = image;
+});

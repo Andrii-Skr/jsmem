@@ -20,7 +20,7 @@ app.get('/add', async (req, res) => {
     console.log(buffer);
 
     image = "data:image/png;base64," + Buffer.from(buffer).toString('base64');
-    console.log(image);
+    console.log(image.length);
   }
   catch (e) {
     const message = e.message;

@@ -27,15 +27,15 @@
 	<div class='center'>
 		<canvas id="img" style="border:1px solid #000000"></canvas>
 
-		<form name="search" class="column">
+		<form id="formid" name="search" class="column">
 			<div>
 				<div id="document"></div>
 				<input id="text1" type="text" name="key" placeholder="Введите текст для картинки"></input>
 				<!-- <input type="button" name="print" value="тыц" /> -->
 			</div>
-			<div>
-				<input id="url1" type="text1" name="key1" placeholder="Введите url"></input>
-				<input id="butt" type="button" name="print1" value="тыц"/>
+			<div class="add-block">
+				<input type="text" class="add-url"/>
+	            <button class="add-start">Add</button>
 			</div>
 
 			<div>
@@ -58,11 +58,11 @@
 </div>
 
 
-<div class="add-block">
+<!-- <div class="add-block">
 	<input type="text" class="add-url"/>
 	<button class="add-start">Add</button>
 	<img class="add-image"/>
-</div>
+</div> -->
 
 
 <script type="text/javascript" src="./index.js"></script>

@@ -9,11 +9,6 @@ textNode.addEventListener("keyup", (e) => {
     drawText(text);
 });
 
-function drawText(text) {
-    c.drawImage(img, 0, 0);
-    c.font = "60px Arial";
-    c.fillText(text, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
-}
 
 function onfil(doc) {
     var file = doc.files[0],
@@ -24,13 +19,15 @@ function onfil(doc) {
         img.onload = function () {
             canv.width = img.width;
             canv.height = img.height;
-            drawText(text);
+            c.drawImage(img, 0, 0);
+            c.font = "60px Arial";
+            c.fillText(text, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
         }
     }
     fileread.readAsDataURL(file);
 }
 
-butt.onclick = function () {
+/* butt.onclick = function () {
     let imageUrl = document.getElementById('url1').value;
     var img = new Image();
     img.crossOrigin = "use-credentials";
@@ -42,7 +39,7 @@ butt.onclick = function () {
         c.fillText(text, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
     }
     img.src = imageUrl;
-};
+}; */
 
 
 function get() {
@@ -79,7 +76,7 @@ function openMem(evt, Mem) {
 //     context.restore();
 // }
 
-function getImage() {
+/* function getImage() {
     var imageData = canv.toDataURL();
     var image = new Image();
     image.src = imageData;
@@ -92,28 +89,32 @@ function saveImage(image) {
     link.setAttribute("href", image.src);
     link.setAttribute("download", "canvasImage");
     link.click();
-}
+} */
 
 // testDrawing();
 
-function saveCanvasAsImageFile() {
+/* function saveCanvasAsImageFile() {
     var image = getImage(document.getElementById("canvas"));
     saveImage(image);
-}
+} */
 
-async function add(url, text) {
+/* async function add(url, text) {
     const request = new Request(url);
     const result = await fetch(url);
 
     const parsed = result.json();
 
-    var image = new Image();
-    image.src = result.image;
-}
-
-const addButton = document.querySelector(".add-block button.add-start");
+    var img = new Image();
+    img.src = result.img;
+  
+} */
+const form = document.querySelector("#formid");
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+});
+const addButton = document.querySelector("button.add-start");
 addButton.addEventListener("click", async () => {
-    const urlInput = document.querySelector(".add-block input.add-url");
+    const urlInput = document.querySelector("input.add-url");
     const url = urlInput.value;
 
     const result = await fetch(`/add?url=${url}`);
@@ -122,8 +123,17 @@ addButton.addEventListener("click", async () => {
 
         const image = parsed.image;
 
-        const imageNode = document.querySelector(".add-block img.add-image");
-        imageNode.src = image;
+        /* const imageNode = document.getElementById("img");
+        imageNode.src = image; */
+        var img = new Image();
+        img.onload = function () {
+        canv.width = img.width;
+        canv.height = img.height;
+        c.drawImage(img, 0, 0);
+        c.font = "60px Arial";
+        c.fillText(text, canv.width / 2 - text.length / 2 * 30, canv.height / 4 - 15);
+    }
+    img.src = image;
     }
     catch (e) {
         console.error(e);

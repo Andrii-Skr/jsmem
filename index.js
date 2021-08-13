@@ -1,5 +1,7 @@
 var canv = document.getElementById("img"),
-    c = canv.getContext("2d");
+    canvtab2 = document.getElementById("imgtab2"),
+    c = canv.getContext("2d"),
+    ctab2 = canvtab2.getContext("2d");
 
 let text = "";
 let textNode = document.querySelector("#text1");
@@ -79,34 +81,41 @@ addButton.addEventListener("click", async () => {
 });
 
 const formtab2 = document.querySelector("#formidtab2");
+let b = 0;
 formtab2.addEventListener("submit", async (event) => {
     event.preventDefault();
 });
 
 const imagetab2 = [];
+var imgtab2 = new Array();
 const addButtontab2 = document.querySelector("button.add-starttab2");
 addButtontab2.addEventListener("click", async () => {
     
-    for (var i = 1 ;i < 6; i++) {
-        const urlInputtab2 = document.querySelector("input.add-urltab2-"+i);
+    for (var i = 0; i < 5; i++) {
+        const urlInputtab2 = document.querySelector("input.add-urltab2-" + i);
         const urltab2 = urlInputtab2.value;
-
         const resulttab2 = await fetch(`/add?url=${urltab2}`);
         try {
             const parsedtab2 = await resulttab2.json();
 
-            imagetab2.push(parsedtab2.image);
-
-            var img = new Image();
-            img.onload = function () {
-                canv.width = img.width;
-                canv.height = img.height;
-                c.drawImage(img, 0, 0);
+            if (parsedtab2.image == undefined) {
+                continue
+                
             }
-            img.src = imagetab2[i-1];
+            imagetab2.push(parsedtab2.image);
+            
+            imgtab2[i] = new Image();
+            imgtab2[i].onload = function () {
+                canvtab2.width = imgtab2[i].width;
+                canvtab2.height = imgtab2[i].height+10000;
+                
+                ctab2.drawImage(imgtab2[i],0,b);
+            }
+            imgtab2.src = imagetab2[i];
         }
         catch (e) {
             console.error(e);
         }
+        
     }
 });

@@ -65,7 +65,7 @@ addButton.addEventListener("click", async () => {
         const parsed = await result.json();
 
         const image = parsed.image;
-        var img = new Image();
+        const img = new Image();
         img.onload = function () {
         canv.width = img.width;
         canv.height = img.height;
@@ -87,13 +87,11 @@ formtab2.addEventListener("submit", async (event) => {
 });
 
 const imagetab2 = [];
-var imgtab2 = new Array();
-canvtab2.width = 700;
-canvtab2.height = 2000;
+const imgtab2 = new Array();
+
 const addButtontab2 = document.querySelector("button.add-starttab2");
 addButtontab2.addEventListener("click", async () => {
-    
-    for (var i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
         const urlInputtab2 = document.querySelector("input.add-urltab2-" + i);
         const urltab2 = urlInputtab2.value;
         const resulttab2 = await fetch(`/add?url=${urltab2}`);
@@ -108,16 +106,21 @@ addButtontab2.addEventListener("click", async () => {
             
             imgtab2[i] = new Image();
             imgtab2[i].onload = function () {
-                
-                
+                canvtab2.width = imgtab2[i].width;
+                canvtab2.height = imgtab2[i].height + b;
                 ctab2.drawImage(imgtab2[i],0,b);
-                b=b+400
+
+                b=b+imgtab2[i].height;
             }
-            imgtab2[i].src = imagetab2[i];
+            imgtab2[i].src = imagetab2[i]; 
         }
         catch (e) {
             console.error(e);
-        }
-        
+        } 
     }
+  /*   for (let j=0;j<5;j++) {
+        imgtab2[j].src = imagetab2[j]; 
+
+    } */
 });
+

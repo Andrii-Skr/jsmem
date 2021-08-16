@@ -88,6 +88,8 @@ formtab2.addEventListener("submit", async (event) => {
 
 const imagetab2 = [];
 var imgtab2 = new Array();
+canvtab2.width = 700;
+canvtab2.height = 2000;
 const addButtontab2 = document.querySelector("button.add-starttab2");
 addButtontab2.addEventListener("click", async () => {
     
@@ -106,12 +108,12 @@ addButtontab2.addEventListener("click", async () => {
             
             imgtab2[i] = new Image();
             imgtab2[i].onload = function () {
-                canvtab2.width = imgtab2[i].width;
-                canvtab2.height = imgtab2[i].height+10000;
+                
                 
                 ctab2.drawImage(imgtab2[i],0,b);
+                b=b+400
             }
-            imgtab2.src = imagetab2[i];
+            imgtab2[i].src = imagetab2[i];
         }
         catch (e) {
             console.error(e);

@@ -1,9 +1,7 @@
 var canv = document.getElementById("img"),
     canvtab2 = document.getElementById("imgtab2"),
     c = canv.getContext("2d"),
-    ctab2 = canvtab2.getContext("2d"),
-    canvtab2temp = document.createElement("temp"),
-    ctab2temp = canvtab2.getContext("2d");
+    ctab2 = canvtab2.getContext("2d");
 
 let text = "";
 let textNode = document.querySelector("#text1");
@@ -83,6 +81,8 @@ addButton.addEventListener("click", async () => {
 });
 
 const formtab2 = document.querySelector("#formidtab2");
+let imgcount = 0;
+let imgend = false;
 let b = 0;
 let iwidth = 0;
 let iheight = 0;
@@ -100,48 +100,64 @@ addButtontab2.addEventListener("click", async () => {
     for (let i = 0; i < 5; i++) {
         const urlInputtab2 = document.querySelector("input.add-urltab2-" + i);
         const urltab2 = urlInputtab2.value;
-        if (urlInputtab2.value == "") {
+        /* if (urlInputtab2.value == "") {
             continue
-        }
-        const resulttab2 = await fetch(`/add?url=${urltab2}`);
+        } */
+        
         try {
+            const resulttab2 = await fetch(`/add?url=${urltab2}`);
             const parsedtab2 = await resulttab2.json();
 
-            if (parsedtab2.image == undefined) {
+           /*  if (parsedtab2.image == undefined) {
                 continue
+            } */
 
-            }
-            imagetab2.push(parsedtab2.image);
-
-            imgtab2[i] = new Image();
-            imgtab2[i].onload = function () {
-                if (imgtab2[i].width > cwidth) {
-                    cwidth = imgtab2[i].width;
-                    iwidth = imgtab2[i].width;
+            imagetab2.onerror = function (e) {
+                if (parsedtab2 == undefined || parsedtab2=="") {
+                console.log(e);
                 }
-                iheight = imgtab2[i].width + iheight;
             }
-            imgtab2[i].src = imagetab2[i];
+
+            imagetab2.push(parsedtab2.image);
+            const j = imagetab2.length -1
+            imgtab2[j] = new Image();
+            imgtab2[j].onload = function () {
+                if (imgtab2[j].width > cwidth) {
+                    cwidth = imgtab2[j].width;
+                    iwidth = imgtab2[j].width;
+                }
+                iheight = imgtab2[j].height + iheight;
+                console.log(imgtab2[j].height)
+                imgcount++
+                onload()
+            }
+            imgtab2[j].src = imagetab2[j];
+            
 
         }
         catch (e) {
             console.error(e);
         }
-
     }
-    canvdrawImage()
+
+    imgend = true;
+    onload()
+
+    function onload () {
+        if (imgend == true && imgcount == imgtab2.length) {
+            canvdrawImage()
+        }
+    }
+
     function canvdrawImage() {
         canvtab2.width = iwidth;
         canvtab2.height = iheight;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < imgtab2.length; i++) {
             if (imgtab2[i] == undefined) {
                 continue
             }
-            imgtab2[i].onload = function () {
                 ctab2.drawImage(imgtab2[i], 0, b);
                 b = b + imgtab2[i].height;
-            }
-            imgtab2[i].src = imagetab2[i];
         }
     }
 });

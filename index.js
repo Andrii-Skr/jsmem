@@ -100,22 +100,20 @@ addButtontab2.addEventListener("click", async () => {
     for (let i = 0; i < 5; i++) {
         const urlInputtab2 = document.querySelector("input.add-urltab2-" + i);
         const urltab2 = urlInputtab2.value;
-        /* if (urlInputtab2.value == "") {
+        if (urlInputtab2.value == "") {
             continue
-        } */
+        }
         
         try {
             const resulttab2 = await fetch(`/add?url=${urltab2}`);
             const parsedtab2 = await resulttab2.json();
 
-           /*  if (parsedtab2.image == undefined) {
+            if (parsedtab2.image == undefined) {
                 continue
-            } */
+            }
 
             imagetab2.onerror = function (e) {
-                if (parsedtab2 == undefined || parsedtab2=="") {
                 console.log(e);
-                }
             }
 
             imagetab2.push(parsedtab2.image);
@@ -161,3 +159,15 @@ addButtontab2.addEventListener("click", async () => {
         }
     }
 });
+const addButtonSaveTab2 = document.querySelector("button.save4img");
+addButtonSaveTab2.addEventListener("click", async () => {
+    saveimg()
+});
+
+function saveimg() {
+    var link = document.createElement("a");
+    var canvurl = canvtab2.toDataURL();
+    link.download = "download";
+    link.href = canvurl
+    link.click();
+}

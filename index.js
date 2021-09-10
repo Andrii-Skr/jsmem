@@ -170,4 +170,60 @@ function saveimg() {
     link.download = "download";
     link.href = canvurl
     link.click();
+    setFile(canvurl)
 }
+
+
+const baseName 	  = "filesBase";
+const storeName 	  = "filesStore";
+
+function logerr(err){
+	console.log(err);
+}
+
+function connectDB(f){
+	let request = indexedDB.open(baseName, 1);
+	request.onerror = logerr;
+	request.onsuccess = function(){
+		f(request.result);
+	}
+	request.onupgradeneeded = function(e){
+		e.currentTarget.result.createObjectStore(storeName, { keyPath: "path" });
+		connectDB(f);
+	}
+}
+
+function setFile(file){
+	connectDB(function(db){
+		let request = db.transaction([storeName], "readwrite").objectStore(storeName).put(file);
+		request.onerror = logerr;
+		request.onsuccess = function(){
+			return request.result;
+		}
+	});
+}
+
+function getStorage(f){
+	connectDB(function(db){
+		var rows = [],
+			store = db.transaction([storeName], "readonly").objectStore(storeName);
+
+		if(store.mozGetAll)
+			store.mozGetAll().onsuccess = function(e){
+				f(e.target.result);
+			};
+		else
+			store.openCursor().onsuccess = function(e) {
+				var cursor = e.target.result;
+				if(cursor){
+					rows.push(cursor.value);
+					cursor.continue();
+				}
+				else {
+					f(rows);
+				}
+			};
+	});
+}
+
+console.log(getStorage(f));
